@@ -1,0 +1,87 @@
+{
+  "generator": "scripts/public-art.mjs + scripts/public-art-electron.mjs",
+  "source": "Original geometric drawing; no third-party media, personal likeness, external font files or generative-service output",
+  "networkAttempts": 0,
+  "files": [
+    {
+      "path": "assets/characters/xiaoqi-green.png",
+      "sha256": "c42ac113004758ede2b3bf4c6dafa2dda2d089500ef1d65e2228ad6d4fee8d7e"
+    },
+    {
+      "path": "docs/media/social-preview.png",
+      "sha256": "d24a5b5eb7dbc3a909b4b1860af2ab20f6193efb7b722d3d24d742d11f24fa41"
+    },
+    {
+      "path": "assets/ui/app-icon.png",
+      "sha256": "6df2dc898934ffa1e3581eadba3519bd5314b1262fd074376a6c242f33963b1b"
+    },
+    {
+      "path": "assets/ui/hero-empty.png",
+      "sha256": "6df2dc898934ffa1e3581eadba3519bd5314b1262fd074376a6c242f33963b1b"
+    },
+    {
+      "path": "assets/ui/hero-placeholder.png",
+      "sha256": "6df2dc898934ffa1e3581eadba3519bd5314b1262fd074376a6c242f33963b1b"
+    },
+    {
+      "path": "assets/ui/hero-connecting.png",
+      "sha256": "6df2dc898934ffa1e3581eadba3519bd5314b1262fd074376a6c242f33963b1b"
+    },
+    {
+      "path": "assets/ui/bust-xiaoqi.png",
+      "sha256": "6df2dc898934ffa1e3581eadba3519bd5314b1262fd074376a6c242f33963b1b"
+    },
+    {
+      "path": "assets/ui/task-notes-todo.png",
+      "sha256": "808e62788d2bb284331d14ac7626bc98ae8b9be46297f298f421fd8c67f37d89"
+    },
+    {
+      "path": "assets/ui/task-tidy-screenshots.png",
+      "sha256": "45103525d6f2953a96179296ae2110442b335666464438850c716ea076984de6"
+    },
+    {
+      "path": "assets/ui/task-weather-notify.png",
+      "sha256": "07d4c72dd91fb67873a7adbde8b3345b3c33d826850472720073ac09353d0f8a"
+    },
+    {
+      "path": "assets/ui/task-web-headlines.png",
+      "sha256": "da8b9ffdceca6b3d8c36a28e8da2a73387db205feecd94b8e5404f7a71afd838"
+    },
+    {
+      "path": "assets/ui/task-clipboard-md.png",
+      "sha256": "58df7217b7c1a86306386f6c5a0f908912327bbc4b20634eb7dbe551e826b946"
+    },
+    {
+      "path": "assets/ui/task-screen-describe.png",
+      "sha256": "2a3dda69746b611c3c8e8fc992a05900df42d238564a4c7f90ef88ba3fbb682a"
+    },
+    {
+      "path": "assets/ui/task-csv-report.png",
+      "sha256": "346d305a6f16102f23da2df84df4801a24668b5034249ce24bd9d96355d39a47"
+    },
+    {
+      "path": "assets/ui/task-sysinfo-notify.png",
+      "sha256": "1b08a8422184b158e5db8ab03c6418ebc68534c676701a1f11e91d6ba891625c"
+    },
+    {
+      "path": "build/icon.png",
+      "sha256": "fc42e2870fe01a62fd407fdc3708f1a55048df92506530b07c0087314eac1580"
+    },
+    {
+      "path": "assets/trayTemplate.png",
+      "sha256": "0048f97b2198c6e0627de7aeccdc55ea12287babbf298c17384d16957904249c"
+    },
+    {
+      "path": "assets/trayTemplate@2x.png",
+      "sha256": "2c1888421f98de3c7011cfd57f3d1eaf1651e7c56471156ecb7f471147217e3b"
+    },
+    {
+      "path": "assets/characters/xiaoqi-idle.webm",
+      "sha256": "57678e84e91dcb0e2bd5412323090229abc49112eac805428fa95057fe744702"
+    },
+    {
+      "path": "docs/media/cover.svg",
+      "sha256": "07a53502fba8b163507c54825cb9e82717898e0554442b835a7a3ffb677046f0"
+    }
+  ]
+}

@@ -1,0 +1,117 @@
+/* 栖伴 · 桌宠舞台：数字人容器、工具条、缩放把手、字幕。亮色，无暗色主题。 */
+:root {
+  color-scheme: light;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  --text: #1d1d1f;
+  --text-2: #6e6e73;
+  --icon: #3a3a3c;
+  --blue: #0a84ff;
+  --green: #34c759;
+  --orange: #ff9f0a;
+  --red: #ff3b30;
+  --grey: #c7c7cc;
+  --ease: cubic-bezier(.2, .8, .2, 1);
+}
+* { box-sizing: border-box; }
+.stage-root { position: fixed; inset: 0; overflow: hidden; }
+/* Screen-sized layer; translated by minus the window origin so children can use screen coordinates. */
+.stage-screen { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+
+/* 身体矩形：由 Stage 按 scale/anchor 定位；里面的 .stage-body 由 main.tsx 负责内容（idle 图 / IdleLayer / 视频 / 抠像画布）。 */
+.stage-figure { position: absolute; touch-action: none; cursor: grab; }
+.stage-figure.locked { cursor: default; }
+.stage-figure.dragging { cursor: grabbing; }
+.stage-body { position: relative; width: 100%; height: 100%; }
+.stage-body > * { pointer-events: none; }
+.stage-media-notice { position: absolute; top: 4px; left: 50%; transform: translateX(-50%); z-index: 3; padding: 3px 8px; border-radius: 8px; background: rgba(255,255,255,.9); color: var(--text-2); font-size: 11px; white-space: nowrap; pointer-events: none; }
+.stage-body img, .stage-body video, .stage-body canvas { width: 100%; height: 100%; object-fit: contain; display: block; }
+
+/* 头顶工具条：悬停显示。zone 紧贴身体上沿，避免指针穿过空隙时 pointerleave。 */
+.stage-toolbar-zone {
+  position: absolute; left: 0; right: 0; bottom: 100%;
+  display: flex; justify-content: center; padding-bottom: 8px;
+  opacity: 0; transition: opacity .15s var(--ease); pointer-events: none;
+}
+.stage-toolbar-zone.show { opacity: 1; pointer-events: auto; }
+.stage-toolbar {
+  display: flex; align-items: center; gap: 2px; height: 20px; padding: 0 3px;
+  background: rgba(255, 255, 255, .9); border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .12), 0 0 0 1px rgba(0, 0, 0, .06);
+  cursor: default;
+}
+.stage-toolbar .tb {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 20px; height: 18px; border: 0; padding: 0; border-radius: 4px;
+  background: transparent; color: var(--icon); cursor: default;
+}
+.stage-toolbar .tb svg { width: 14px; height: 14px; }
+.stage-toolbar .tb:hover:not(:disabled) { background: rgba(0, 0, 0, .06); }
+.stage-toolbar .tb:disabled { opacity: .35; }
+.stage-toolbar .tb.on { color: var(--text); }
+.stage-toolbar .tb.danger { color: var(--red); }
+.stage-toolbar .tb-sep { width: 1px; height: 12px; margin: 0 2px; background: rgba(0, 0, 0, .1); }
+
+/* 右下角缩放把手 */
+.stage-handle {
+  position: absolute; right: -4px; bottom: -4px; width: 18px; height: 18px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(255, 255, 255, .9); border-radius: 6px; color: var(--icon);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .12), 0 0 0 1px rgba(0, 0, 0, .06);
+  cursor: nwse-resize; opacity: 0; transition: opacity .15s var(--ease);
+}
+.stage-handle.show { opacity: 1; }
+.stage-handle svg { width: 14px; height: 14px; }
+
+/* 字幕：她脚下 10px，容器外绝对定位，不盖住鞋子 */
+.stage-subtitle {
+  position: absolute; left: 50%; top: calc(100% + 10px); transform: translateX(-50%);
+  width: max-content; max-width: min(60vw, 520px); padding: 6px 12px;
+  background: rgba(255, 255, 255, .85); color: var(--text); border-radius: 6px;
+  font-size: 15px; line-height: 1.4; text-align: center; white-space: pre-wrap; word-break: break-word;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, .1); pointer-events: none;
+}
+.stage-subtitle.status { font-size: 12px; color: var(--text-2); padding: 3px 10px; white-space: nowrap; }
+.stage-subtitle.status.connecting { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 6px 12px 5px; }
+.stage-subtitle.status.connecting img { width: 56px; height: 56px; object-fit: contain; -webkit-user-drag: none; }
+
+/* dev 诊断日志（DEV 且非 mock） */
+.stage-diag { position: absolute; left: 8px; top: 8px; margin: 0; font-size: 10px; color: #0f0; background: rgba(0, 0, 0, .4); padding: 6px; max-width: 420px; white-space: pre-wrap; pointer-events: none; }
+
+/* 当前角色还没有立绘时的占位（不可点、不抠像） */
+.stage-placeholder {
+  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  border: 1.5px dashed rgba(0, 0, 0, .18); border-radius: 12px; background: rgba(255, 255, 255, .35);
+  color: var(--text-2); font-size: 12px;
+}
+.stage-placeholder b { color: var(--text); font-size: 14px; }
+.stage-placeholder img { width: min(45%, 160px); aspect-ratio: 1; object-fit: contain; margin-bottom: 6px; -webkit-user-drag: none; }
+
+/* 任务 09：收到侧边的标签（64×80，贴屏幕左/右边缘，只在内侧圆角）。点击唤出，上下拖动移位。 */
+.dock-tag {
+  position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  padding: 6px 4px 5px; background: rgba(255, 255, 255, .82); color: var(--text);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2); backdrop-filter: blur(16px) saturate(1.2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .14), 0 0 0 1px rgba(0, 0, 0, .06);
+  cursor: pointer; user-select: none; touch-action: none; outline: 0;
+  transition: background .15s var(--ease), transform .15s var(--ease);
+}
+.dock-tag.side-left { border-radius: 0 14px 14px 0; }
+.dock-tag.side-right { border-radius: 14px 0 0 14px; }
+.dock-tag:hover { background: rgba(255, 255, 255, .95); }
+.dock-tag.side-left:hover { transform: translateX(2px); }
+.dock-tag.side-right:hover { transform: translateX(-2px); }
+.dock-tag.dragging { cursor: grabbing; transition: none; }
+.dock-tag img { width: 52px; height: 52px; border-radius: 10px; object-fit: contain; -webkit-user-drag: none; pointer-events: none; }
+.dock-initial { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; background: #f2f2f5; color: var(--text-2); font-size: 20px; font-weight: 600; }
+.dock-name { max-width: 56px; font-size: 10.5px; line-height: 12px; color: var(--text-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dock-dot { position: absolute; top: 6px; width: 7px; height: 7px; border-radius: 50%; background: var(--grey); box-shadow: 0 0 0 1.5px rgba(255, 255, 255, .9); }
+.dock-tag.side-left .dock-dot { right: 6px; }
+.dock-tag.side-right .dock-dot { left: 6px; }
+.dock-dot.ok { background: var(--green); }
+.dock-dot.busy { background: var(--orange); }
+.dock-dot.bad { background: var(--red); }
+/* 收纳时身体容器留在 DOM 里（实时视频/声音继续），但不显示、不参与命中测试 */
+.stage-figure.docked { visibility: hidden; pointer-events: none; }

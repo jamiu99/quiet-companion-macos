@@ -1,0 +1,114 @@
+{
+  "name": "quiet-companion-mac",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "repository": { "type": "git", "url": "git+https://github.com/jamiu99/quiet-companion-macos.git" },
+  "homepage": "https://github.com/jamiu99/quiet-companion-macos#readme",
+  "bugs": { "url": "https://github.com/jamiu99/quiet-companion-macos/issues" },
+  "description": "栖伴 macOS · 本地 AI 桌宠、可选实时数字人与电脑任务 Agent",
+  "type": "module",
+  "main": "dist/electron/main.cjs",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "start": "npm run build && electron .",
+    "test": "vitest run",
+    "test:media": "node scripts/media-harness.mjs",
+    "test:live": "node scripts/live-soak.mjs",
+    "audit:source": "node scripts/source-audit.mjs",
+    "audit:package": "node scripts/package-audit.mjs",
+    "package:source": "node scripts/package-source.mjs",
+    "prepare:public": "node scripts/prepare-public.mjs",
+    "assets:public": "node scripts/generate-public-art.mjs",
+    "sdk:install": "node scripts/install-rtc-sdk.mjs",
+    "notices:build": "node scripts/build-notices.mjs",
+    "publication:check": "node scripts/publication-check.mjs",
+    "site:build": "node scripts/build-site.mjs",
+    "check": "npm run typecheck && npm run build && npm test && npm run test:media",
+    "agent:dev": "node scripts/build.mjs --only=agent-host && node dist/agent-host/index.mjs --cwd \"$HOME/CompanionWorkspace\"",
+    "dist": "npm run notices:build && npm run build && npm run publication:check -- --binary && electron-builder --mac --arm64"
+  },
+  "dependencies": {
+    "@earendil-works/pi-coding-agent": "^0.87.0",
+    "@earendil-works/pi-ai": "^0.87.0",
+    "typebox": "^1.3.27",
+    "ws": "^8.18.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@types/ws": "^8.18.1",
+    "@vitejs/plugin-react": "^4.7.0",
+    "electron": "^44.4.3",
+    "electron-builder": "^26.0.0",
+    "esbuild": "^0.25.12",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1",
+    "vitest": "^5.0.1"
+  },
+  "build": {
+    "appId": "com.quietcompanion.mac",
+    "productName": "栖伴",
+    "copyright": "Copyright © 2026 s1uxda",
+    "asar": false,
+    "npmRebuild": false,
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "dist/**",
+      "agent-host/prompts/**",
+      "package.json",
+      "LICENSE*",
+      "THIRD_PARTY_NOTICES.md",
+      "SECURITY.md",
+      "build/THIRD_PARTY_LICENSES.*",
+      "!**/*.map",
+      "!**/.cache/**",
+      "!**/.env*",
+      "!**/.npmrc",
+      "!**/*.log",
+      "!**/*.p12",
+      "!**/*.pfx"
+    ],
+    "extraMetadata": {
+      "main": "dist/electron/main.cjs"
+    },
+    "mac": {
+      "category": "public.app-category.entertainment",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "arm64"
+          ]
+        }
+      ],
+      "identity": null,
+      "hardenedRuntime": false,
+      "gatekeeperAssess": false,
+      "icon": "build/icon.png",
+      "extendInfo": {
+        "LSUIElement": true,
+        "NSAppleEventsUsageDescription": "栖伴需要控制其它应用（如备忘录、Safari）来替你完成任务。",
+        "NSMicrophoneUsageDescription": "数字人实时对话可能需要使用麦克风。"
+      }
+    },
+    "dmg": {
+      "sign": false,
+      "artifactName": "${productName}-${version}-${arch}.${ext}"
+    }
+  }
+}

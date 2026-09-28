@@ -1,0 +1,9 @@
+{
+  "name": "Quiet Companion",
+  "nameZh": "栖伴",
+  "repositoryUrl": "https://github.com/jamiu99/quiet-companion-macos",
+  "homepageUrl": "",
+  "license": "MIT",
+  "description": "A macOS AI desktop companion with a local pet, optional real-time avatar, and a coding agent for computer tasks.",
+  "topics": ["macos", "desktop-pet", "ai-companion", "ai-agent", "electron", "react", "typescript", "virtual-avatar", "webgl", "chromakey", "pkce", "desktop-assistant"]
+}

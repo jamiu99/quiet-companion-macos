@@ -1,0 +1,16 @@
+name: Feature idea / 功能建议
+description: 描述使用场景、必要性与权限 / 费用影响。
+title: "[Idea] "
+body:
+  - type: textarea
+    attributes:
+      label: 你想解决什么问题？
+      description: 描述场景与已有替代办法，不附私人数据。
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 建议方案及取舍
+      description: 是否需要新的系统权限、服务、付费会话或上传数据？
+    validations:
+      required: true

@@ -1,0 +1,34 @@
+name: Project harness
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  check:
+    runs-on: macos-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm run audit:source -- --release
+      - run: npm run publication:check
+      - run: npm run site:build -- --preview
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: media-harness
+          path: .cache/media-harness/
+          if-no-files-found: warn
+          retention-days: 7
