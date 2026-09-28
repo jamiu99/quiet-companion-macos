@@ -31,7 +31,7 @@
     "dist": "npm run notices:build && npm run build && npm run publication:check -- --binary && electron-builder --mac --arm64"
   },
   "dependencies": {
-    "@earendil-works/pi-coding-agent": "^0.87.0",
+    "@earendil-works/pi-coding-agent": "^0.87.1",
     "@earendil-works/pi-ai": "^0.87.0",
     "typebox": "^1.3.27",
     "ws": "^8.18.3"
